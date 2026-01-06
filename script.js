@@ -114,3 +114,66 @@ clearButton.addEventListener('click', () => {
     currentOperator = null;
     shouldResetDisplay = false;
 });
+
+const decimalPointButton = document.querySelector('.decimal');
+const backspaceButton = document.querySelector('.backspace');
+
+decimalPointButton.addEventListener('click', () => {
+    if (shouldResetDisplay === true) {
+        displayValue = '0.';
+        display.textContent = displayValue;
+        shouldResetDisplay = false;
+        return;
+    }
+    if (displayValue.includes('.')) {
+        return;
+    } 
+    displayValue += '.';
+    display.textContent = displayValue;
+});
+
+document.addEventListener('keydown', (e) => {
+    if (e.key >= '0' && e.key <= '9') {
+        numberButtons.forEach((button) => {
+            if (button.textContent === e.key) {
+                button.click();
+            }
+        });
+    };
+
+    if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') {
+        operatorButtons.forEach((button) => {
+            if (button.textContent === e.key) {
+                button.click();
+            };
+        });
+    }
+
+    if (e.key === '.') {
+        decimalPointButton.click();
+    }
+
+    if (e.key === 'Enter' || e.key === '=') {
+        e.preventDefault();
+        equalsButton.click();
+    }
+
+    if (e.key === 'Escape') {
+        clearButton.click();
+    }
+
+    if (e.key === 'Backspace') {
+        backspaceButton.click();
+    }
+});
+
+backspaceButton.addEventListener('click', () => {
+    if (shouldResetDisplay) return;
+
+    displayValue = displayValue.slice(0, -1);
+
+    if (displayValue === '') {
+        displayValue = '0';
+    }
+    display.textContent = displayValue;
+});
